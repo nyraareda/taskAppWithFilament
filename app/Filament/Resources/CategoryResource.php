@@ -26,6 +26,9 @@ class CategoryResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
+                    ->required()
+                    ->rules(['min:3','string','regex:/^[^0-9]*$/'])
+                    ->label('Category Name'),
             ]);
     }
 
@@ -34,7 +37,7 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 textColumn::make('id'),
-                textColumn::make('name')
+                textColumn::make('name')->label('Category Name'),
             ])
             ->filters([
                 //

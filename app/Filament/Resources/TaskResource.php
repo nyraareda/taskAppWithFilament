@@ -24,13 +24,25 @@ class TaskResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('title')->required(),
-                TextInput::make('description')->required(),
-                DateTimePicker::make('deadline')->required()->rules(['after:tomorrow']),
-                Select::make('status')->options([
+                TextInput::make('title')
+                    ->label('Title')
+                    ->required()
+                    ->rules(['min:3','string','regex:/^[^0-9]*$/']),
+                TextInput::make('description')
+                    ->label('Description')
+                    ->rules(['min:3','string','regex:/^[^0-9]*$/'])
+                    ->required(),
+                DateTimePicker::make('deadline')
+                    ->label('Deadline')
+                    ->required()
+                    ->rules(['after:tomorrow']),
+                Select::make('status')
+                    ->label('Status')
+                    ->options([
                     'pending' => 'Pending',
                     'completed' => 'Completed',
-                ])->default('pending')->required(),
+                ])
+                    ->default('pending'),
                 Select::make('category_id')
                     ->relationship('category', 'name')
                     ->required()
