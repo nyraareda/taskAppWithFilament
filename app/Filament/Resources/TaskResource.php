@@ -26,7 +26,7 @@ class TaskResource extends Resource
             ->schema([
                 TextInput::make('title')->required(),
                 TextInput::make('description')->required(),
-                DateTimePicker::make('deadline')->required(),
+                DateTimePicker::make('deadline')->required()->rules(['after:tomorrow']),
                 Select::make('status')->options([
                     'pending' => 'Pending',
                     'completed' => 'Completed',
