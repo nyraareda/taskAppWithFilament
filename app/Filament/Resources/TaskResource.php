@@ -5,7 +5,10 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\TaskResource\Pages;
 use App\Models\Task;
 use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -24,30 +27,49 @@ class TaskResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('title')
-                    ->label('Title')
-                    ->required()
-                    ->rules(['min:3','string','regex:/^[^0-9]*$/']),
-                TextInput::make('description')
-                    ->label('Description')
-                    ->rules(['min:3','string','regex:/^[^0-9]*$/'])
-                    ->required(),
-                DateTimePicker::make('deadline')
-                    ->label('Deadline')
-                    ->required()
-                    ->rules(['after:tomorrow']),
-                Select::make('status')
-                    ->label('Status')
-                    ->options([
-                    'pending' => 'Pending',
-                    'completed' => 'Completed',
-                ])
-                    ->default('pending'),
-                Select::make('category_id')
-                    ->relationship('category', 'name')
-                    ->required()
-                    ->label('Category')
+                Section::make('Task Details')
+                    ->schema([
+                        Grid::make(2)
+                        ->schema([
+                            TextInput::make('title')
+                                ->label('Title')
+                                ->required()
+                                ->rules(['min:3', 'string', 'regex:/^[^0-9]*$/']),
+                            Textarea::make('description')
+                                ->label('Description')
+                                ->rules(['min:3', 'string', 'regex:/^[^0-9]*$/'])
+                                ->required(),
+                        ]),
+                    ]),
+                Section::make('Task Information')
+                    ->schema([
+                        Grid::make(2)
+                        ->schema([
+                            DateTimePicker::make('deadline')
+                                ->label('Deadline')
+                                ->required()
+                                ->rules(['after:tomorrow']),
+                            Select::make('status')
+                                ->label('Status')
+                                ->options([
+                                    'pending' => 'Pending',
+                                    'completed' => 'Completed',
+                                ])
+                                ->default('pending'),
+                        ]),
+                    ]),
+            Section::make('Category')
+                 ->schema([
+                    Grid::make(1) // One column for category
+                    ->schema([
+                     Select::make('category_id')
+                        ->relationship('category', 'name')
+                        ->required()
+                        ->label('Category'),
+                    ]),
+                 ]),
             ]);
+
     }
 
     public static function table(Table $table): Table

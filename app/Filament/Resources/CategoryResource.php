@@ -4,6 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\CategoryResource\Pages;
 use App\Models\Category;
+use Filament\Forms\Components\Section;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -21,10 +22,13 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
-                TextInput::make('name')
-                    ->required()
-                    ->rules(['min:3','string','regex:/^[^0-9]*$/'])
-                    ->label('Category Name'),
+                Section::make('Category')
+                    ->icon('heroicon-o-rectangle-stack')
+                ->schema([
+                    TextInput::make('name')->required()
+                    ->label('Category Name')
+                    ->rules(['min:3','string','regex:/^[^0-9]*$/']),
+                ])
             ]);
     }
 
