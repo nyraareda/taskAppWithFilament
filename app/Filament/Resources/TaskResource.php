@@ -28,6 +28,7 @@ class TaskResource extends Resource
         return $form
             ->schema([
                 Section::make('Task Details')
+                    ->icon('heroicon-o-pencil-square')
                     ->schema([
                         Grid::make(2)
                         ->schema([
@@ -42,13 +43,17 @@ class TaskResource extends Resource
                         ]),
                     ]),
                 Section::make('Task Information')
+                    ->icon('heroicon-o-pencil')
                     ->schema([
                         Grid::make(2)
                         ->schema([
                             DateTimePicker::make('deadline')
                                 ->label('Deadline')
                                 ->required()
-                                ->rules(['after:tomorrow']),
+                                ->rules(['after:tomorrow'])
+                                ->hint('Select a deadline that is after today')
+                                ->prefixIcon('heroicon-o-calendar') // Add calendar icon to the field
+                                ->default(now()),
                             Select::make('status')
                                 ->label('Status')
                                 ->options([
@@ -59,13 +64,17 @@ class TaskResource extends Resource
                         ]),
                     ]),
             Section::make('Category')
+                ->icon('heroicon-o-rectangle-stack')
                  ->schema([
                     Grid::make(1) // One column for category
                     ->schema([
                      Select::make('category_id')
+                         ->hint('You can search and select the category')
                         ->relationship('category', 'name')
                         ->required()
-                        ->label('Category'),
+                        ->label('Category')
+                        ->searchable(),
+
                     ]),
                  ]),
             ]);
