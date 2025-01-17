@@ -3,6 +3,8 @@
 namespace App\Providers\Filament;
 
 use App\Filament\Resources\TaskResource\Widgets\RecentTasksWidget;
+use App\Filament\Resources\TaskResource\Widgets\TaskFilteredWidget;
+use App\Filament\Resources\TaskResource\Widgets\TaskFilterWidget;
 use App\Filament\Resources\TaskResource\Widgets\TasksByCategoryChart;
 use App\Filament\Resources\TaskResource\Widgets\TasksByStatusChart;
 use Filament\Http\Middleware\Authenticate;

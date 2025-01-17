@@ -6,7 +6,7 @@
                 <div class="p-4 bg-white shadow rounded">
                     <h4 class="text-lg font-semibold">{{ $task->title }}</h4>
                     <p class="text-sm text-gray-600">{{ $task->description }}</p>
-                    <p class="text-sm text-gray-500">Status: {{ ucfirst($task->status) }}</p>
+                    <p class="text-sm text-gray-500">Status: {{ ucfirst($task->status->value) }}</p>
                     <p class="text-sm text-gray-500">Updated: {{ $task->updated_at->diffForHumans() }}</p>
                 </div>
             @endforeach
