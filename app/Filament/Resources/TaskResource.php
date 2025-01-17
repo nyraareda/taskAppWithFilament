@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources;
 
+use App\Enums\TaskStatus;
 use App\Filament\Resources\TaskResource\Pages;
 use App\Models\Task;
 use Filament\Forms\Components\DateTimePicker;
@@ -86,10 +87,15 @@ class TaskResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('title')->label('Task Title'),
-                TextColumn::make('description')->label('Description'),
+                TextColumn::make('description')
+                    ->label('Description')
+                    ->toggleable(isToggledHiddenByDefault: true),
                 TextColumn::make('deadline')->label('Deadline')->date()->sortable(),
-                TextColumn::make('status')->label('Status'),
-                TextColumn::make('category.name')->label('Category'),
+                TextColumn::make('status')
+                    ->color(fn (TaskStatus $state): string => match ($state->value) {
+                        'pending' => 'warning',
+                        'completed' => 'success',
+                    })
             ])
             ->filters([
                 SelectFilter::make('status')
@@ -116,7 +122,8 @@ class TaskResource extends Resource
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
-                ]),
+                ])
+
             ])
             ->defaultSort('deadline');
     }

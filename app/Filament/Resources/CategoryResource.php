@@ -36,8 +36,14 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
-                textColumn::make('id'),
                 textColumn::make('name')->label('Category Name'),
+                TextColumn::make('tasks_count')
+                    ->label('Number of Tasks')
+                    ->counts('tasks')
+            ->toggleable(isToggledHiddenByDefault: true),
+                TextColumn::make('tasks.title')
+                    ->label('Task Titles')
+
             ])
             ->filters([
                 //
